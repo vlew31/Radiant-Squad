@@ -1,0 +1,92 @@
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.image-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: transform 0.2s ease;
+}
+
+.image-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-content {
+  padding: 15px;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-caption {
+  color: #555;
+  margin-top: 5px;
+}
+
+.card-date {
+  color: #888;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+.delete-image-btn {
+  margin-top: 15px;
+  padding: 6px 12px;
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.delete-image-btn:hover {
+  background-color: #c0392b;
+}
+
+.gallery-loading {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.gallery-error {
+  text-align: center;
+  padding: 40px 0;
+  color: #e74c3c;
+}
+
+.retry-btn {
+  margin-top: 15px;
+  padding: 8px 20px;
+  background-color: #3498db;
+  color: white;
+  border-radius: 4px;
+}
+
+.empty-gallery {
+  text-align: center;
+  padding: 40px 0;
+  color: #555;
+  font-size: 1.2rem;
+} 

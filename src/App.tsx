@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import { HomePage } from "./pages/HomePage";
+import { UploadPage } from "./pages/UploadPage";
+import "./styles/main.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  // Simple routing handler
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    // Listen for popstate events (browser back/forward)
+    window.addEventListener("popstate", handleRouteChange);
+
+    // Override anchor clicks for SPA navigation
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest("a");
+      
+      if (
+        anchor && 
+        anchor.getAttribute("href")?.startsWith("/") && 
+        !anchor.getAttribute("href")?.startsWith("//") && 
+        !anchor.hasAttribute("download") && 
+        !anchor.hasAttribute("rel") &&
+        anchor.target !== "_blank"
+      ) {
+        e.preventDefault();
+        const href = anchor.getAttribute("href") || "/";
+        window.history.pushState({}, "", href);
+        setCurrentPath(href);
+      }
+    });
+
+    return () => {
+      window.removeEventListener("popstate", handleRouteChange);
+    };
+  }, []);
+
+  // Render the appropriate page based on the current path
+  const renderPage = () => {
+    switch (currentPath) {
+      case "/":
+        return <HomePage />;
+      case "/upload":
+        return <UploadPage />;
+      default:
+        return <HomePage />;
+    }
+  };
+
+  return <>{renderPage()}</>;
 }
 
-export default App
+export default App;
